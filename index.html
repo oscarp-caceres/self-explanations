@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta a la API de ChatGPT</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <style>
+    #loadingIcon {
+      display: none;
+    }
+    #inputText {
+      display: none;
+    }
+      footer {
+    background-color: #343a40;
+    padding: 10px 0;
+    margin-top: 20px;
+    color: #fff;
+  }
+   #outputDiv {
+    display: none;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  </style>
+
+</head>
+<body>
+ 
+  <div class="container mt-5">
+    <h1><i class="fas fa-laptop-house"></i> Construir Explicación con ChatGPT</h1>
+  <div class="container mt-5">
+    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="feedback" aria-selected="true">Feedback</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="feedforward-tab" data-bs-toggle="tab" data-bs-target="#feedforward" type="button" role="tab" aria-controls="feedforward" aria-selected="false">Feedforward</button>
+      </li>
+    </ul>
+
+<div class="tab-content" id="myTabContent">
+  <!-- Tab "Feedback" -->
+  <div class="tab-pane fade show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+    <div class="row mt-3">
+      <div class="col-md-2">
+        <label for="feedback-servicio" class="form-label"><i class="fa-solid fa-robot"></i> Servicio</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-servicio" autocomplete="off" placeholder="medicamentos">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-accion" class="form-label"><i class="fa-solid fa-user-check"></i> Acción</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-accion" autocomplete="off" placeholder="tomar">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-motivo" class="form-label"><i class="fa-solid fa-user-shield"></i> Motivo</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-motivo" autocomplete="off" placeholder="lista farmacos">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-objeto-accion" class="form-label"><i class="fas fa-chalkboard-teacher"></i> Objeto Acción</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-objeto-accion" autocomplete="off" placeholder="...">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-momento" class="form-label"><i class="fa-solid fa-hourglass"></i> Momento</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-momento" autocomplete="off" placeholder="ahora">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-alerta" class="form-label"><i class="fa-regular fa-bell"></i> Alerta</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-alerta" autocomplete="off" placeholder="miembros familia">
+      </div>
+      <div class="col-md-2">
+        <label for="feedback-ubicacion" class="form-label"><i class="fa-solid fa-location-dot"></i> Ubicación</label>
+        <input type="text" class="form-control form-control-sm" id="feedback-ubicacion" autocomplete="off" placeholder="sala estar">
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab "Feedforward" -->
+  <div class="tab-pane fade" id="feedforward" role="tabpanel" aria-labelledby="feedforward-tab">
+    <div class="row mt-3">
+      <div class="col-md-2">
+        <label for="feedforward-servicio" class="form-label"><i class="fa-solid fa-robot"></i> Servicio</label> 
+        <input type="text" class="form-control form-control-sm" id="feedforward-servicio" autocomplete="off" placeholder="bombillas">
+      </div>
+      <div class="col-md-2">
+        <label for="feedforward-accion" class="form-label"><i class="fa-solid fa-user-check"></i> Acción</label> 
+        <input type="text" class="form-control form-control-sm" id="feedforward-accion" autocomplete="off" placeholder="encender">
+      </div>
+      <div class="col-md-2">
+        <label for="feedforward-motivo" class="form-label"><i class="fa-solid fa-user-shield"></i> Motivo</label>
+        <input type="text" class="form-control form-control-sm" id="feedforward-motivo" autocomplete="off" placeholder="baja luminosidad">
+      </div>
+      <div class="col-md-2">
+        <label for="feedforward-objeto-accion" class="form-label"><i class="fas fa-sync"></i> Objeto Acción</label>
+        <input type="text" class="form-control form-control-sm" id="feedforward-objeto-accion" autocomplete="off" placeholder="automaticamente">
+      </div>
+    </div>
+  </div>
+</div>
+
+  <br>
+    <div class="form-group">
+      <textarea class="form-control" id="inputText" rows="4" placeholder="Ingresa tu texto aquí"></textarea>
+    </div>
+      <div class="col-md-2">
+        <label for="inputPrompt" class="form-label"><i class="fas fa-hand-holding"></i> Tipo de Consulta</label>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="fas fa-ellipsis-v"></i> Selecciona una opción
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#" data-option="que"><i class="fas fa-caret-right"></i> Qué</a></li>
+            <li><a class="dropdown-item" href="#" data-option="porque"><i class="fas fa-caret-right"></i> Por qué</a></li>
+            <li><a class="dropdown-item" href="#" data-option="porque_no"><i class="fas fa-caret-right"></i> Porque No</a></li>
+            <li><a class="dropdown-item" href="#" data-option="que_pasa_si"><i class="fas fa-caret-right"></i> Qué pasa sí</a></li>
+            <li><a class="dropdown-item" href="#" data-option="como"><i class="fas fa-caret-right"></i> Cómo</a></li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <center>
+    <button class="btn btn-primary" id="submitButton">
+      Generar Explicación <i class="fas fa-arrow-right"></i>
+    </button>
+    </center>
+
+    <div id="loadingIcon" class="text-center mt-3">
+      <img src="img/loading.gif" alt="Cargando..." width="32px" height="32px">
+    </div>
+
+    <div id="outputDiv" class="mt-3"></div>
+  </div>
+
+
+  <!-- Pie de página -->
+  <footer class="bg-dark text-light text-center py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fas fa-laptop-house"></i> Generación de explicaciones &copy; 2023. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+ <!-- Scripts de Bootstrap y jQuery -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      var apiKey = "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"; // Reemplaza con tu propia API Key
+      var endpoint = "https://api.openai.com/v1/completions";
+
+
+      // Variable para almacenar el tipo de prompt seleccionado
+var prompt = "";
+      // Capturar evento de clic en el menú desplegable
+      $('.dropdown-menu a').click(function(e) {
+      
+      //Obtener datos Tab 1
+      var feedback_servicio      = $("#feedback-servicio").val();
+      var feedback_accion        = $("#feedback-accion").val();
+      var feedback_motivo        = $("#feedback-motivo").val();
+      var feedback_objeto_accion = $("#feedback-objeto-accion").val();
+      var feedback_momento       = $("#feedback-momento").val();
+      var feedback_alerta        = $("#feedback-alerta").val();
+      var feedback_ubicacion     = $("#feedback-ubicacion").val();
+
+      //Obtener datos Tab 2
+      var feedforward_servicio      = $('#feedforward-servicio').val();
+      var feedforward_accion        = $("#feedforward-accion").val();
+      var feedforward_motivo        = $("#feedforward-motivo").val();
+      var feedforward_objeto_accion = $("#feedforward-objeto-accion").val(); 
+
+      // Objeto de prompts para el Tab 1
+      var promptsTab1 = {
+        'que': 'La acción que debe hacer el usuario es, '+feedback_accion+' '+feedback_servicio+'. El servicio es, '+feedback_servicio+'. El momento es, '+feedback_momento+'. Elabora una oración corta en tercera persona y utilice de manera singular el verbo en modo imperativo.',
+        'porque': 'La acción que debe hacer el usuario es, '+feedback_accion+' '+feedback_servicio+'. El servicio es, '+feedback_servicio+'. El momento es, '+feedback_momento+'. El motivo o de acuerdo es, '+feedback_motivo+'. Elabora una oración corta en tercera persona y utilice de manera singular el verbo en modo imperativo.',
+        'porque_no': 'La acción que debe hacer el usuario es,'+feedback_accion+' '+feedback_servicio+'. El servicio es, '+feedback_servicio+'. El momento es, '+feedback_momento+'. El motivo es, '+feedback_motivo+'. Elabora una oración corta en negación explicando el porque no se puede posponer.',
+        'que_pasa_si': 'La acción que debe hacer el usuario es,'+feedback_accion+' '+feedback_servicio+'. El servicio es, '+feedback_servicio+'. El momento es, '+feedback_momento+'. El motivo es, '+feedback_motivo+'. Elabora una oración corta dirigiendote a un usuario lo que pasará de incumplir la tarea. El sistema notificará o generará una alerta, '+feedback_alerta,
+        'como': 'La acción que debe hacer el usuario es,'+feedback_accion+' '+feedback_servicio+' . El servicio es, '+feedback_servicio+'. Para  encontrar la ubicación de lo medicamentos el usuario debe dirigirse, '+feedback_ubicacion+'. El usuario debe realizar un, '+feedback_objeto_accion+'. Elabora una oración corta donde un sistema le explique a un usuario como realizar la acción.'
+      };
+
+      // Objeto de prompts para el Tab 2
+      var promptsTab2 = {
+        'que': 'La acción que ha inferido el sistema ha sido, '+feedforward_accion+' '+feedforward_servicio+'. El servicio es, '+feedforward_servicio+'. Elabora una oración corta explicando lo que ha realizado el sistema.',
+        'porque': 'La acción que ha inferido el sistema ha sido, '+feedforward_accion+' '+feedforward_servicio+' . El servicio es, '+feedforward_servicio+'. El motivo o razón es, '+feedforward_motivo+'. Elabora una oración corta explicando lo que ha realizado el sistema.',
+        'porque_no': 'La acción que ha inferido el sistema ha sido, '+feedforward_accion+' '+feedforward_servicio+' . El servicio es, '+feedforward_servicio+'. El motivo o razón es, '+feedforward_motivo+'. Elabora una oración corta explicando en negación el porque no se solicito una acción por parte del usuario.',
+        'que_pasa_si': 'La acción que ha inferido el sistema ha sido, '+feedforward_accion+' '+feedforward_servicio+' . El servicio es, '+feedforward_servicio+'. El motivo o razón es, '+feedforward_motivo+'. Elabora una oración corta explicando que hubiera pasado si el sistema no tuviera la configuración actual.',
+        'como': 'La acción que ha inferido el sistema ha sido, '+feedforward_accion+' '+feedforward_servicio+'. El servicio es, '+feedforward_servicio+'. Elabora una oración corta donde se explique como lo hizo el sistema y en base a qué las opciones deben estar relacionadas al servicio?. La acción debe estar en sustantivo.'
+      };
+
+        e.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+
+        var tab = $('.nav-link.active').attr('aria-controls'); // Obtener el ID del tab activo
+        alert(tab);
+
+
+        // Determinar el objeto de prompts según el tab actual
+        var prompts;
+        if (tab === "feedback") {
+          prompts = promptsTab1;
+        } else if (tab === "feedforward") {
+          prompts = promptsTab2;
+        }
+
+        var option = $(this).data('option'); // Obtener el nombre de la opción seleccionada
+        prompt = prompts[option]; // Obtener el prompt correspondiente según la opción seleccionada
+
+
+        // Establecer el prompt en el textarea
+        $('#inputText').val(prompt).trigger('input');
+
+        // Actualizar el texto del botón desplegable con la opción seleccionada
+        var selectedOption = $(this).text();
+        $('#dropdownMenuButton').text(selectedOption);
+      });
+//
+
+// Restablecer opción del menú desplegable al cambiar de tab
+$('.nav-link').on('click', function (e) {
+  $('#dropdownMenuButton').text('Selecciona una opción');
+});
+
+      $('#submitButton').click(function() {
+        var inputText = $('#inputText').val();
+        $('#outputDiv').hide(); 
+        if (inputText.trim() === '') {
+          alert('Por favor, ingresa un texto válido');
+          return;
+        }
+
+        var data = {
+          model: 'text-davinci-003', // Puedes utilizar otro modelo si lo prefieres
+          temperature:0,
+          top_p:1,
+          max_tokens: 100,
+          prompt: inputText,
+          max_tokens: 100 // Número máximo de tokens de salida
+        };
+
+        $('#loadingIcon').show();
+
+        $.ajax({
+          type: 'POST',
+          url: endpoint,
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + apiKey);
+          },
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function(response) {
+            var output = response.choices[0].text;
+            $('#outputDiv').text('La respuesta es: ' + output);
+            $('#outputDiv').show();
+            $('#loadingIcon').hide();
+          },
+          error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            alert('Error al llamar a la API: ' + error);
+            $('#loadingIcon').hide();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
